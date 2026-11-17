@@ -1,0 +1,63 @@
+package co.edu.uniquindio.ProjectoFinal;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class PoliticaCancelacion implements Serializable {
+
+    private int diasDevolucion;
+    private int diasRetencion;
+    private double porcentajeRetencion;
+
+    public PoliticaCancelacion(int diasDevolucion, int diasRetencion, double porcentajeRetencion){
+        this.diasDevolucion=diasDevolucion;
+        this.diasRetencion=diasRetencion;
+        this.porcentajeRetencion=porcentajeRetencion;
+    }
+
+    //entre 2 y 7 días se retiene el 50% del valor de la estancia; con menos de 48 horas
+    public int calcularRetencion(int valorEstancia, LocalDate ahora, LocalDate entrada, EstadoReserva motivo){
+        if(ahora == null || entrada == null){
+            return 0;
+        }
+        //en caso de no-show, se retiene el 100 %
+        if(motivo== EstadoReserva.NO_SHOW){
+            return valorEstancia;
+        }
+        long dias= ChronoUnit.DAYS.between(ahora, entrada);
+        //con más de 7 días de antelación se devuelvetodo lo pagado
+        if(dias> diasDevolucion){
+            return 0;
+        }
+        //entre 2 y 7 días se retiene el 50 % del valor de la estancia
+        if(dias >= diasRetencion) {
+            return (int) (valorEstancia * porcentajeRetencion / 100);
+        }
+        //con menos de 48 horas, o en caso de no-show, se retiene el 100 %
+        return valorEstancia;
+    }
+    public int getDiasDevolucion() {
+        return diasDevolucion;
+    }
+
+    public void setDiasDevolucion(int diasDevolucion) {
+        this.diasDevolucion = diasDevolucion;
+    }
+
+    public int getDiasRetencion() {
+        return diasRetencion;
+    }
+
+    public void setDiasRetencion(int diasRetencion) {
+        this.diasRetencion = diasRetencion;
+    }
+
+    public double getPorcentajeRetencion() {
+        return porcentajeRetencion;
+    }
+
+    public void setPorcentajeRetencion(double porcentajeRetencion) {
+        this.porcentajeRetencion = porcentajeRetencion;
+    }
+}

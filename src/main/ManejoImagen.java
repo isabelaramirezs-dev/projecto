@@ -1,0 +1,65 @@
+package co.edu.uniquindio.ProjectoFinal;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+
+
+public class ManejoImagen {
+    private String carpetaDestino;
+
+    public ManejoImagen(String carpetaDestino){
+
+        this.carpetaDestino=carpetaDestino;
+    }
+
+    public String guardarImagen(File origen, String nombre){
+        if (origen== null || nombre == null || nombre.equals("")){
+            return null;
+        }
+        if(!origen.exists() || !esFormatoValido(origen)){
+            return null;
+        }
+        try {
+            Path carpeta = Path.of(carpetaDestino);
+            Files.createDirectories(carpeta);
+            // getFileName evita que "nombre" trate de escribir fuera de la carpeta
+            Path destino = carpeta.resolve(Path.of(nombre).getFileName().toString());
+            Files.copy(origen.toPath(), destino, StandardCopyOption.REPLACE_EXISTING);
+            return destino.toString();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public File cargarImagen(String ruta){
+        if(ruta== null || ruta.equals("")){
+            return null;
+        }
+        File archivo= new File(ruta);
+        if(!archivo.exists()){
+            return null;
+        }
+        return archivo;
+    }
+
+    public boolean esFormatoValido(File archivo){
+        if(archivo== null){
+            return false;
+        }
+        String n= archivo.getName().toLowerCase();
+        return n.endsWith(".png") || n.endsWith(".jpg") || n.endsWith(".jpeg");
+    }
+
+    public String getCarpetaDestino() {
+
+        return carpetaDestino;
+    }
+
+    public void setCarpetaDestino(String carpetaDestino) {
+
+        this.carpetaDestino = carpetaDestino;
+    }
+}

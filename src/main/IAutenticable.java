@@ -1,0 +1,7 @@
+package co.edu.uniquindio.ProjectoFinal;
+
+public interface IAutenticable {
+
+    boolean autenticar (String usuario, String contrasenia);
+
+}

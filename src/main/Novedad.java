@@ -1,0 +1,64 @@
+package co.edu.uniquindio.ProjectoFinal;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class Novedad implements Serializable {
+    private String descripcion;
+    private LocalDate fecha;
+    private TipoNovedad tipo;
+    private Apartamento apartamento;
+    private Recepcionista registradaPor;
+
+    public Novedad(String descripcion, LocalDate fecha, TipoNovedad tipo, Apartamento apartamento, Recepcionista registradaPor){
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.tipo=tipo;
+        this.apartamento= apartamento;
+        this.registradaPor= registradaPor;
+    }
+
+    public String getDescripcion() {
+
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+
+        this.descripcion = descripcion;
+    }
+
+    public LocalDate getFecha() {
+
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+
+        this.fecha = fecha;
+    }
+
+    public TipoNovedad getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoNovedad tipo) {
+        this.tipo = tipo;
+    }
+
+    public Apartamento getApartamento() {
+        return apartamento;
+    }
+
+    public void setApartamento(Apartamento apartamento) {
+        this.apartamento = apartamento;
+    }
+
+    public Recepcionista getRegistradaPor() {
+        return registradaPor;
+    }
+
+    public void setRegistradaPor(Recepcionista registradaPor) {
+        this.registradaPor = registradaPor;
+    }
+}
