@@ -1,0 +1,172 @@
+package co.edu.uniquindio.ProjectoFinal;
+
+import java.io.Serializable;
+import java.util.LinkedList;
+
+public class Apartamento implements Serializable {
+    private String codigo;
+    private String nombre;
+    private int numeroDormitorios;
+    private int capacidadMaxima;
+    private LinkedList<String> caracteristicas;
+    private String FueraDeServicio;
+    private boolean activo;
+    private LinkedList<String> rutasFotos;
+    private EstadoOperativo estadoOperativo;
+    private LinkedList<Tarifa> tarifas;
+
+    public Apartamento(String codigo, String nombre, int numeroDormitorios, int capacidadMaxima, LinkedList<String> caracteristicas, LinkedList<String> rutasFotos){
+        this.codigo=codigo;
+        this.nombre=nombre;
+        this.numeroDormitorios=numeroDormitorios;
+        this.capacidadMaxima=capacidadMaxima;
+        this.caracteristicas=caracteristicas;
+        this.FueraDeServicio="";
+        this.activo=true;
+        this.rutasFotos=rutasFotos;
+        this.estadoOperativo= EstadoOperativo.PREPARADO;
+        this.tarifas= new LinkedList<>();
+    }
+
+    @Override
+    public String toString(){
+        return codigo + " - " + nombre;
+    }
+
+    //Cambio del estado operativo de los apartamentos (por ejemplo, de En preparación a Preparado)
+    public void actualizarEstadoOperativo (EstadoOperativo estadoOperativoActualizado){
+        if(estadoOperativoActualizado != EstadoOperativo.FUERA_DE_SERVICIO){
+            this.estadoOperativo= estadoOperativoActualizado;
+            this.FueraDeServicio= "";
+        }
+    }
+
+    public boolean verificarDisponibilidad(){
+        if (this.activo && this.estadoOperativo != EstadoOperativo.FUERA_DE_SERVICIO){
+            return true;
+        }
+        return false;
+    }
+
+    //Cuando un apartamento pase a Fuera de servicio se deberá registrar el motivo, por ejemplo: daño en la tubería o mantenimiento eléctrico
+    public void registrarMotivoFueraDeServicio(String motivoDueraDeServicio) {
+        this.estadoOperativo= EstadoOperativo.FUERA_DE_SERVICIO;
+        this.FueraDeServicio= motivoDueraDeServicio;
+    }
+
+    //Tarifas por apartamento.
+    public int getTarifa(TemporadaAlojamiento t){
+        for(Tarifa tarifa: tarifas){
+            if(tarifa.getTemporada()== t){
+                return tarifa.getValorPersonaNoche();
+            }
+        }
+        return 0;
+    }
+    public LinkedList<Tarifa> getTarifas(){
+
+        return new LinkedList<>(tarifas);
+    }
+
+    public void agregarTarifa (Tarifa tarifa){
+
+        tarifas.add(tarifa);
+    }
+
+    public boolean estaPreparado() {
+        if (this.estadoOperativo.equals(EstadoOperativo.PREPARADO)) {
+            return true;
+        }
+        return false;
+    }
+
+    public String getCodigo() {
+
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+
+        this.codigo = codigo;
+    }
+
+    public String getNombre() {
+
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+
+        this.nombre = nombre;
+    }
+
+    public int getNumeroDormitorios() {
+
+        return numeroDormitorios;
+    }
+
+    public void setNumeroDormitorios(int numeroDormitorios) {
+
+        this.numeroDormitorios = numeroDormitorios;
+    }
+
+    public int getCapacidadMaxima() {
+
+        return capacidadMaxima;
+    }
+
+    public void setCapacidadMaxima(int capacidadMaxima) {
+
+        this.capacidadMaxima = capacidadMaxima;
+    }
+
+    public LinkedList<String> getCaracteristicas() {
+
+        return caracteristicas;
+    }
+
+    public void setCaracteristicas(LinkedList<String> caracteristicas) {
+
+        this.caracteristicas = caracteristicas;
+    }
+
+    public String getFueraDeServicio() {
+
+        return FueraDeServicio;
+    }
+
+    public void setFueraDeServicio(String FueraDeServicio) {
+
+        this.FueraDeServicio = FueraDeServicio;
+    }
+
+    public boolean isActivo() {
+
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+
+        this.activo = activo;
+    }
+
+    public LinkedList<String> getRutasFotos() {
+
+        return rutasFotos;
+    }
+
+    public void setRutasFotos(LinkedList<String> rutasFotos) {
+
+        this.rutasFotos = rutasFotos;
+    }
+
+    public EstadoOperativo getEstadoOperativo() {
+
+        return estadoOperativo;
+    }
+
+    public void setEstadoOperativo(EstadoOperativo estadoOperativo) {
+
+        this.estadoOperativo = estadoOperativo;
+    }
+}
